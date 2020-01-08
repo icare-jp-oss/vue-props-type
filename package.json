@@ -1,7 +1,7 @@
 {
   "private": false,
-  "name": "common-messanger",
-  "version": "1.6.2",
+  "name": "@icare-jp/vue-fc-emitter",
+  "version": "0.1.0",
   "scripts": {
     "build": "tsc",
     "prepare": "npm run build",
@@ -12,13 +12,13 @@
   "description": "vue-fc-emitter",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kahirokunn/common-messanger.git"
+    "url": "git+https://github.com/icare-jp-oss/vue-fc-emitter.git"
   },
   "keywords": [],
   "author": "kahirokunn",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kahirokunn/common-messanger/issues"
+    "url": "https://github.com/icare-jp-oss/vue-fc-emitter/issues"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
