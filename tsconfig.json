@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "strict": true,
+    "outDir": "lib",
+    "esModuleInterop": true,
+    "declaration": true,
+    "jsx": "preserve",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": ["esnext", "esnext.asynciterable", "dom", "dom.iterable"],
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "typeRoots": ["./app/frontend/@types/", "./node_modules/@types/"],
+    "sourceMap": true,
+    "target": "es5"
+  },
+  "exclude": ["node_modules", "vendor", "public", "lib"],
+  "compileOnSave": false
+}
