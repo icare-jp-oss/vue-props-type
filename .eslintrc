@@ -1,0 +1,65 @@
+{
+  "extends": [
+    "airbnb",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript",
+    "prettier"
+  ],
+  "plugins": ["@typescript-eslint", "jest", "prettier"],
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser"
+  },
+  "env": {
+    "browser": true,
+    "jest/globals": true
+  },
+  "rules": {
+    "no-plusplus": 0,
+    "prettier/prettier": ["error", {
+      "arrowParens": "always",
+      "printWidth": 140,
+      "singleQuote": true,
+      "trailingComma": "all",
+      "semi": false
+    }],
+    "import/prefer-default-export": "off",
+    "object-shorthand": ["error", "properties"],
+    "prefer-destructuring": ["error", {
+      "array": false,
+      "object": true
+    }, {
+      "enforceForRenamedProperties": false
+    }],
+    "@typescript-eslint/no-unused-vars": ["error", {
+      "vars": "all",
+      "args": "after-used",
+      "ignoreRestSiblings": false
+    }],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/member-delimiter-style": ["error", {
+      "multiline": {
+        "delimiter": "none",
+        "requireLast": false
+      },
+      "singleline": {
+        "delimiter": "semi",
+        "requireLast": false
+      }
+    }],
+    "no-underscore-dangle": ["error", {
+      "allowAfterThis": true
+    }],
+    "@typescript-eslint/no-explicit-any": 0
+  },
+  "overrides": [{
+    "files": ["*.ts", "*.tsx"],
+    "rules": {
+      "@typescript-eslint/no-var-requires": ["error"],
+      "@typescript-eslint/no-useless-constructor": [
+        "error"
+      ]
+    }
+  }]
+}

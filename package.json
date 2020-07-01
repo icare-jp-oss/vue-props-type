@@ -1,0 +1,61 @@
+{
+  "private": false,
+  "name": "@icare-jp/vue-props-type",
+  "version": "0.0.4",
+  "scripts": {
+    "build": "tsc --emitDeclarationOnly",
+    "prepare": "npm run build",
+    "lint": "eslint --ext .tsx,.ts",
+    "lintfix": "prettier --write '**/*.{ts,tsx}' && eslint --ext .tsx,.ts --fix .",
+    "publish": "npm publish --access public",
+    "test": "npx jest"
+  },
+  "description": "vue-props-type",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/icare-jp-oss/vue-props-type.git"
+  },
+  "keywords": [],
+  "author": "kahirokunn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/icare-jp-oss/vue-props-type/issues"
+  },
+  "main": "lib/index.d.ts",
+  "types": "lib/index.d.ts",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.3",
+    "@typescript-eslint/eslint-plugin": "^3.5.0",
+    "@typescript-eslint/parser": "^3.5.0",
+    "eslint": "^7.3.1",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^23.17.1",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.3",
+    "husky": "^4.2.5",
+    "jest": "^26.1.0",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5",
+    "ts-jest": "^26.1.1",
+    "typescript": "^3.9.5"
+  }
+}
