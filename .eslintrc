@@ -1,6 +1,5 @@
 {
   "extends": [
-    "airbnb",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript",
     "prettier"
