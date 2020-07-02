@@ -7,7 +7,7 @@ type ValidType = ClassConstructor | Callback | Promise<unknown>
 
 type Type1 = {
   type: ValidType | ValidType[] | readonly ValidType[]
-  default?: unknown
+  default?: FunctionalConstructor<unknown>
   required?: boolean
   validator?(value: unknown): boolean
 }
@@ -20,13 +20,7 @@ type VueProps = {
 
 type ToPrimitive<T> = T extends Promise<unknown>
   ? T
-  : T extends NumberConstructor
-  ? number
-  : T extends BooleanConstructor
-  ? boolean
-  : T extends StringConstructor
-  ? string
-  : T extends ClassConstructor
+  : T extends NumberConstructor | BooleanConstructor | StringConstructor | ClassConstructor
   ? InstanceType<T>
   : T extends Callback
   ? T
@@ -46,7 +40,13 @@ type DeepReadonly<T> = {
 }
 
 export type UnsafePropsType<Props extends VueProps> = {
-  [K in keyof Props]: Map2Primitive<Props[K] extends Type1 ? Props[K]['type'] : Props[K]>
+  [K in keyof Props]: Props[K] extends {
+    default: FunctionalConstructor<infer U>
+  }
+    ? U | Map2Primitive<Props[K] extends Type1 ? Props[K]['type'] : Props[K]>
+    : Props[K] extends { required: true }
+    ? Map2Primitive<Props[K] extends Type1 ? Props[K]['type'] : Props[K]>
+    : Map2Primitive<Props[K] extends Type1 ? Props[K]['type'] : Props[K]> | undefined
 }
 export type PropsType<Props extends VueProps> = DeepReadonly<UnsafePropsType<Props>>
 type _PropType<T> = T extends string
