@@ -1,4 +1,4 @@
-## Vue Props Type.
+# Vue Props Type (Translated by DeepL
 
 The `Vue Props Type` helps to define the `props` type in `Vue.js`.
 
@@ -117,23 +117,23 @@ const propsType = {
   },
   D: {
     type: Array as PropType<string[]>,
-    required: true
+    required: true,
   },
   E: [String, Number],
   F: Function as (key: string, value: string) => void
-}
+} as const
 
 export type HogeHogeProps = PropsType<typeof propsType>
 // {
-//   readonly A: string;
-//   readonly B: number | DeepReadonly<Date>;
+//   readonly A: "github" | "qiita" | "facebook";
+//   readonly B: 0 | Date | 1;
 //   readonly C: DeepReadonly<{
-//       label: string;
-//       value: string;
+//     label: string;
+//     value: string;
 //   }>;
 //   readonly D: readonly string[];
-//   readonly E: string | number;
-//   readonly F: (key: string, value: string) => void;
+//   readonly E: String | Number | undefined;
+//   readonly F: ((key: string, value: string) => void) | undefined;
 // }
 
 export default defineComponent<HogeHogeProps>({
@@ -145,8 +145,12 @@ export default defineComponent<HogeHogeProps>({
 })
 ```
 
-This eases the management of `props` and reduces the stress of writing type definitions.
-Also, `Vue.js forbids you to make changes to `props`.
-That's why we set `props` to `readonly` by default.
-If you have any problems with `readonly`, use `UnsafePropsType`.
-If you have any problems, please use `UnsafePropsType` if you have any problems with `readonly`.
+This makes `props` management easier and reduces the stress of writing type definitions.
+Also, `Vue.js` forbids any modification to the `props`, so `props` is set to `readonly` by default.
+Also, `Vue.js` forbids you from making changes to the `props`, so `props` is set to `readonly` by default.
+If you have some problems with `readonly`, use the `UnsafePropsType`.
+Also, if you don't have `required: true` and `default: () => any`, then `UnsafePropsType` is used. `undefined` is mixed in.
+Also, if `default: () => any` is present, the return value is extracted and mixed in.
+This gives a closer approximation to the execution result, and therefore to the truth.
+
+Please feel free to raise an issue if you have any comments, even if they are trivial.

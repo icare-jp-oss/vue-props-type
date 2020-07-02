@@ -18,10 +18,12 @@ type VueProps = {
   [propsName: string]: Type1 | Type2
 }
 
+type ToPrimitiveOrReturn<T> = T extends string ? T : T extends number ? T : T extends boolean ? T : T
+
 type ToPrimitive<T> = T extends Promise<unknown>
   ? T
-  : T extends NumberConstructor | BooleanConstructor | StringConstructor | ClassConstructor
-  ? InstanceType<T>
+  : T extends ClassConstructor
+  ? ToPrimitiveOrReturn<InstanceType<T>>
   : T extends Callback
   ? T
   : never
@@ -36,7 +38,9 @@ type ReadonlyConstructor<T> = new (...args: any) => Readonly<T>
 type ReadonlyArrayConstructor<T = any> = GetParams<ArrayConstructor> & ReadonlyConstructor<T> & ReadonlyFunctionalConstructor<T>
 
 type DeepReadonly<T> = {
-  readonly [P in keyof T]: T[P] extends Callback ? T[P] : DeepReadonly<T[P]>
+  readonly [P in keyof T]: T[P] extends Callback | undefined | Date | number | boolean | string | File | ArrayBuffer
+    ? T[P]
+    : DeepReadonly<T[P]>
 }
 
 export type UnsafePropsType<Props extends VueProps> = {
@@ -49,29 +53,23 @@ export type UnsafePropsType<Props extends VueProps> = {
     : Map2Primitive<Props[K] extends Type1 ? Props[K]['type'] : Props[K]> | undefined
 }
 export type PropsType<Props extends VueProps> = DeepReadonly<UnsafePropsType<Props>>
-type _PropType<T> = T extends string
-  ? OverrideConstructor<T, StringConstructor>
-  : T extends number
-  ? OverrideConstructor<T, NumberConstructor>
-  : T extends boolean
-  ? OverrideConstructor<T, BooleanConstructor>
-  : T extends Array<any>
+type _PropType<T> = T extends Array<any>
   ? OverrideConstructor<T, ArrayConstructor>
   : T extends ReadonlyArray<any>
   ? OverrideConstructor<T, ReadonlyArrayConstructor>
-  : T extends number
-  ? OverrideConstructor<T, NumberConstructor>
-  : T extends boolean
-  ? OverrideConstructor<T, BooleanConstructor>
   : T extends Date
   ? GetParams<DateConstructor> & Constructor<T>
   : T extends symbol
   ? GetParams<SymbolConstructor> & FunctionalConstructor<T>
   : T extends BigInt
   ? GetParams<BigIntConstructor> & FunctionalConstructor<T>
-  : T extends string
-  ? OverrideConstructor<T, StringConstructor>
   : T extends Record<string, unknown>
   ? OverrideConstructor<T, ObjectConstructor>
-  : never
+  : T extends string
+  ? OverrideConstructor<T, StringConstructor>
+  : T extends number
+  ? OverrideConstructor<T, NumberConstructor>
+  : T extends boolean
+  ? OverrideConstructor<T, BooleanConstructor>
+  : Constructor<T> & FunctionalConstructor<T>
 export type PropType<T> = _PropType<T> | _PropType<T>[]

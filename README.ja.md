@@ -1,4 +1,4 @@
-## Vue Props Type
+# Vue Props Type
 
 `Vue Props Type`は`Vue.js`の`props`の型定義を助けます.
 
@@ -117,23 +117,23 @@ const propsType = {
   },
   D: {
     type: Array as PropType<string[]>,
-    required: true
+    required: true,
   },
   E: [String, Number],
   F: Function as (key: string, value: string) => void
-}
+} as const
 
 export type HogeHogeProps = PropsType<typeof propsType>
 // {
-//   readonly A: string;
-//   readonly B: number | DeepReadonly<Date>;
+//   readonly A: "github" | "qiita" | "facebook";
+//   readonly B: 0 | Date | 1;
 //   readonly C: DeepReadonly<{
-//       label: string;
-//       value: string;
+//     label: string;
+//     value: string;
 //   }>;
 //   readonly D: readonly string[];
-//   readonly E: string | number;
-//   readonly F: (key: string, value: string) => void;
+//   readonly E: String | Number | undefined;
+//   readonly F: ((key: string, value: string) => void) | undefined;
 // }
 
 export default defineComponent<HogeHogeProps>({
@@ -145,8 +145,12 @@ export default defineComponent<HogeHogeProps>({
 })
 ```
 
-これにより`props`の管理を楽にし、型定義を書くストレスを軽減します.
-また、`Vue.js`は`props`へ変更を加える操作を禁止しています.
-そのため、`props`を標準で`readonly`にしています.
-もし`readonly`にすることにより何かしらの問題が起こる場合は`UnsafePropsType`を利用してください.
+これにより `props` の管理を楽にし、型定義を書くストレスを軽減します.
+また、 `Vue.js` は `props` へ変更を加える操作を禁止しています.
+そのため、 `props` を標準で `readonly` にしています.
+もし `readonly` にすることにより何かしらの問題が起こる場合は `UnsafePropsType` を利用してください.
+また、 `required: true` と `default: () => any` も無い場合、 `undefined` を混ぜています.
+また、 `default: () => any` がある場合は戻り値を抽出し、混ぜています.
+それにより、より実行結果に近い、つまり真実に近い型を得られます.
+
 些細な意見でも結構ですので、なにかありましたら気軽にissueを立てて申し立ててくださると幸いです.
