@@ -1,10 +1,10 @@
-## Vue Props Type.
+## Vue Props Type
 
-The `Vue Props Type` helps to define the `props` type in `Vue.js`.
+`Vue Props Type`は`Vue.js`の`props`の型定義を助けます.
 
 ## Why
 
-If you want to use composition-api, you need to write the following code.
+composition-apiを利用したコードを書く場合、以下のように書く必要があります.
 
 ```typescript
 import { defineComponent } from '@vue/composition-api'
@@ -46,11 +46,11 @@ export default defineComponent<HogeHogeProps>({
 })
 ```
 
-The `props object` passed to the `Option` and the `props type` of the type definition are defined separately, and they need to be maintained by hand if they are to be written honestly.
-The challenge with this is that if you change the code of the `props object` and forget to modify the `props type`, the `HogeHogeProps type` or `props object` will lie.
-Some people may be tempted to skip the `props type` type definition if there are too many items in the `props object`.
-Some people may only write the type definition of the `props object` item they are accessing in the `setup`.
-Here is an example.
+`Option`に渡す`props object`と型定義の`Props type`は別々で定義されおり、素直に書く場合は、人の手により両方をメンテナンスする必用があります.
+これには課題があり、もし`props object`のコードを変更し、`Props type`の修正を忘れた場合、`HogeHogeProps type`又は`props object`は嘘をつくことになります.
+人によっては`props object`の項目が多い場合、`Props type`の型定義をサボりたくなるでしょう.
+人によっては`setup`内でアクセスしている`props object`の項目の型定義しか書かない可能性もあります.
+以下がその例です.
 
 ```typescript
 import { defineComponent } from '@vue/composition-api'
@@ -88,15 +88,15 @@ export default defineComponent<HogeHogeProps>({
 })
 ```
 
-Moreover, in this example at least, we don't know what type of pattern `D`, `E` and `F` are.
-How are they being accessed in the `template`?
-If we want to know the pattern, we need to decipher it from there.
-While our spirited reasoning consumes a lot of time, we get very little time by skipping out on type definitions.
-Moreover, our results may not be consistent with the implementer's intentions.
+しかもこの例では少なくとも`D`と`E`と`F`がどんな模様の型なのか一切わかりません.
+`template`の中でどのようにアクセスされているのでしょうか？
+我々がその模様を知りたい場合、そこから読み解く必用があります.
+我々の気合による推論で消費する時間は多いのに対して、型定義でサボって得られる時間はごくわずかです.
+しかも我々の推論結果が実装者の意図とただしくない可能性があります.
 
-Also, if you skip it, you will not be able to properly benefit from the `Typescript` ecosystem, and you will not get the benefit of the `Typescript` ecosystem. (e.g. `template` type checking, etc.). (e.g., type checking of `template`.
-`Vue Props Type` aims to solve such problems simply and easily with the power of TypeScript.
-Here's a sample using `Vue Props Type`.
+また、サボった場合は、`Typescript`のエコシステムの恩恵を正しく受けれなくなるリスクがあります. (例: `template`の型検査等
+`Vue Props Type`はTypeScriptの力によって、このような課題の解決をシンプル且つ簡単に解決することを目指します.
+以下が`Vue Props Type`を使ったサンプルです.
 
 ```typescript
 import { defineComponent } from '@vue/composition-api'
@@ -145,8 +145,8 @@ export default defineComponent<HogeHogeProps>({
 })
 ```
 
-This eases the management of `props` and reduces the stress of writing type definitions.
-Also, `Vue.js forbids you to make changes to `props`.
-That's why we set `props` to `readonly` by default.
-If you have any problems with `readonly`, use `UnsafePropsType`.
-If you have any problems, please use `UnsafePropsType` if you have any problems with `readonly`.
+これにより`props`の管理を楽にし、型定義を書くストレスを軽減します.
+また、`Vue.js`は`props`へ変更を加える操作を禁止しています.
+そのため、`props`を標準で`readonly`にしています.
+もし`readonly`にすることにより何かしらの問題が起こる場合は`UnsafePropsType`を利用してください.
+些細な意見でも結構ですので、なにかありましたら気軽にissueを立てて申し立ててくださると幸いです.
