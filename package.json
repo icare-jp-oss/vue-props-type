@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "@icare-jp/vue-props-type",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "scripts": {
     "build": "tsc --emitDeclarationOnly",
     "prepare": "npm run build",

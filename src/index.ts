@@ -1,4 +1,5 @@
-type ClassConstructor = new (...args: any[]) => unknown
+export type Constructor<T> = new (...args: any[]) => T
+type ClassConstructor = Constructor<unknown>
 type Callback = (...args: any[]) => unknown
 
 type ValidType = ClassConstructor | Callback | Promise<unknown>
