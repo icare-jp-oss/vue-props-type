@@ -51,7 +51,7 @@ type DeepReadonly<T> = {
     : DeepReadonly<T[P]>
 }
 
-export type UnsafePropsType<Props extends VueProps> = {
+export type InsideUnsafePropsType<Props extends VueProps> = {
   [K in keyof Props]: Props[K] extends {
     default: FunctionalConstructor<infer U>
   }
@@ -60,8 +60,8 @@ export type UnsafePropsType<Props extends VueProps> = {
     ? Map2Primitive<Props[K] extends Type1 ? Props[K]['type'] : Props[K]>
     : Map2Primitive<Props[K] extends Type1 ? Props[K]['type'] : Props[K]> | undefined
 }
-export type PropsType<Props extends VueProps> = DeepReadonly<UnsafePropsType<Props>>
-type _PropType<T> = T extends Array<any>
+export type InsidePropsType<Props extends VueProps> = DeepReadonly<InsideUnsafePropsType<Props>>
+type _InsidePropsTypePropType<T> = T extends Array<any>
   ? OverrideConstructor<T, ArrayConstructor>
   : T extends ReadonlyArray<any>
   ? OverrideConstructor<T, ReadonlyArrayConstructor>
@@ -80,28 +80,14 @@ type _PropType<T> = T extends Array<any>
   : T extends boolean
   ? OverrideConstructor<T, BooleanConstructor>
   : Constructor<T> & FunctionalConstructor<T>
-export type PropType<T> = _PropType<T> | _PropType<T>[]
+export type PropType<T> = _InsidePropsTypePropType<T> | _InsidePropsTypePropType<T>[]
 
-const railsLinkPropsType = {
-  route: {
-    type: String,
-    required: true,
-  },
-  anchor: {
-    type: String,
-    default: () => null as null,
-  },
-  tag: {
-    type: String,
-    default: () => 'a',
-  },
-  disabledClass: {
-    type: String,
-    default: () => 'disabled-link',
-  },
-  disabled: {
-    type: Boolean,
-    default: (): boolean => false,
-  },
-} as const
-export type RailsLinkProps = PropsType<typeof railsLinkPropsType>
+type PickKeys<T, U> = { [P in keyof T]: T[P] extends U ? P : never }[keyof T]
+type FilterKeys<T, U> = { [P in keyof T]: T[P] extends U ? never : P }[keyof T]
+
+type _OutsidePropsType<Props extends VueProps> = {
+  [K in keyof Props]: Map2Primitive<Props[K] extends Type1 ? Props[K]['type'] : Props[K]>
+}
+
+export type OutsidePropsType<Props extends VueProps> = _OutsidePropsType<Pick<Props, PickKeys<Props, { required: true }>>> &
+  Partial<_OutsidePropsType<Pick<Props, FilterKeys<Props, { required: true }>>>>
