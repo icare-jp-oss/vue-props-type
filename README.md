@@ -98,9 +98,10 @@ Also, if you skip it, you will not be able to properly benefit from the `Typescr
 `Vue Props Type` aims to solve such problems simply and easily with the power of TypeScript.
 Here's a sample using `Vue Props Type`.
 
+
 ```typescript
 import { defineComponent } from '@vue/composition-api'
-import { PropsType, PropType } from '@icare-jp/vue-props-type'
+import { InsidePropsType, PropType } from '@icare-jp/vue-props-type'
 
 const propsType = {
   A: {
@@ -123,20 +124,33 @@ const propsType = {
   F: Function as (key: string, value: string) => void
 } as const
 
-export type HogeHogeProps = PropsType<typeof propsType>
+export type HogeHogeProps = OutsidePropsType<typeof propsType>
 // {
-//   readonly A: "github" | "qiita" | "facebook";
+//   A?: string | undefined;
+//   B: 0 | Date | 1;
+//   C: DeepReadonly<{
+//     label: string;
+//     value: string;
+//   }>;
+//   D: string[];
+//   E?: string | number | undefined;
+//   F?: ((key: string, value: string) => void) | undefined;
+// }
+
+type InsideHogeHogeProps = InsidePropsType<typeof propsType>
+// {
+//   readonly A: string;
 //   readonly B: 0 | Date | 1;
 //   readonly C: DeepReadonly<{
 //     label: string;
 //     value: string;
 //   }>;
 //   readonly D: readonly string[];
-//   readonly E: String | Number | undefined;
+//   readonly E: string | number | undefined;
 //   readonly F: ((key: string, value: string) => void) | undefined;
 // }
 
-export default defineComponent<HogeHogeProps>({
+export default defineComponent<InsideHogeHogeProps>({
   name: 'HogeHoge',
   props: propsType,
   setup(props) {
@@ -145,12 +159,29 @@ export default defineComponent<HogeHogeProps>({
 })
 ```
 
-This makes `props` management easier and reduces the stress of writing type definitions.
-Also, `Vue.js` forbids any modification to the `props`, so `props` is set to `readonly` by default.
-Also, `Vue.js` forbids you from making changes to the `props`, so `props` is set to `readonly` by default.
-If you have some problems with `readonly`, use the `UnsafePropsType`.
-Also, if you don't have `required: true` and `default: () => any`, then `UnsafePropsType` is used. `undefined` is mixed in.
+The `InsidePropsType` eases the management of `props` and allows you to define the type to ease the stress of writing a `Vue.js'.
+Also, Vue.js forbids any modification to the `props`, so `props` is set to `readonly` by default.
+For this reason, `props` is set to `readonly` by default.
+If you have some problems with `readonly`, please try to use the `UnsafePropsType`.
+Also, if neither `required: true` nor `default: () => any` are present, then ` undefined` is mixed in.
 Also, if `default: () => any` is present, the return value is extracted and mixed in.
-This gives a closer approximation to the execution result, and therefore to the truth.
+It gives a closer approximation to the execution result, and therefore to the truth.
 
+Also, the user of the prepared components can set the type safe to `props` and use the `props` as the return value for the If you want to, you have to write and prepare the following code manually.
+
+```typescript
+export type HogeHogeProps = {
+  A?: string | undefined;
+  B: 0 | Date | 1;
+  C: DeepReadonly<{
+    label: string;
+    value: string;
+  }>;
+  D: string[];
+  E?: string | number | undefined;
+  F?: ((key: string, value: string) => void) | undefined;
+}
+```
+
+Using `OutsidePropsType` in exactly the same way as `InsideHogeHogeProps`, you can generate this type automatically and reduce the stress of writing type definitions.
 Please feel free to raise an issue if you have any comments, even if they are trivial.

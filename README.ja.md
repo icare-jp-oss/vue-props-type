@@ -100,7 +100,7 @@ export default defineComponent<HogeHogeProps>({
 
 ```typescript
 import { defineComponent } from '@vue/composition-api'
-import { PropsType, PropType } from '@icare-jp/vue-props-type'
+import { InsidePropsType, PropType } from '@icare-jp/vue-props-type'
 
 const propsType = {
   A: {
@@ -123,20 +123,33 @@ const propsType = {
   F: Function as (key: string, value: string) => void
 } as const
 
-export type HogeHogeProps = PropsType<typeof propsType>
+export type HogeHogeProps = OutsidePropsType<typeof propsType>
 // {
-//   readonly A: "github" | "qiita" | "facebook";
+//   A?: string | undefined;
+//   B: 0 | Date | 1;
+//   C: DeepReadonly<{
+//     label: string;
+//     value: string;
+//   }>;
+//   D: string[];
+//   E?: string | number | undefined;
+//   F?: ((key: string, value: string) => void) | undefined;
+// }
+
+type InsideHogeHogeProps = InsidePropsType<typeof propsType>
+// {
+//   readonly A: string;
 //   readonly B: 0 | Date | 1;
 //   readonly C: DeepReadonly<{
 //     label: string;
 //     value: string;
 //   }>;
 //   readonly D: readonly string[];
-//   readonly E: String | Number | undefined;
+//   readonly E: string | number | undefined;
 //   readonly F: ((key: string, value: string) => void) | undefined;
 // }
 
-export default defineComponent<HogeHogeProps>({
+export default defineComponent<InsideHogeHogeProps>({
   name: 'HogeHoge',
   props: propsType,
   setup(props) {
@@ -145,7 +158,7 @@ export default defineComponent<HogeHogeProps>({
 })
 ```
 
-これにより `props` の管理を楽にし、型定義を書くストレスを軽減します.
+`InsidePropsType` を使う事により、 `props` の管理を楽にし、型定義を書くストレスを軽減します.
 また、 `Vue.js` は `props` へ変更を加える操作を禁止しています.
 そのため、 `props` を標準で `readonly` にしています.
 もし `readonly` にすることにより何かしらの問題が起こる場合は `UnsafePropsType` を利用してください.
@@ -153,4 +166,21 @@ export default defineComponent<HogeHogeProps>({
 また、 `default: () => any` がある場合は戻り値を抽出し、混ぜています.
 それにより、より実行結果に近い、つまり真実に近い型を得られます.
 
+また、用意されたコンポーネントを利用する側がtype safeに`props`を用意したい場合、以下のようなコードを手動で書き、用意しなければなりません.
+
+```typescript
+export type HogeHogeProps = {
+  A?: string | undefined;
+  B: 0 | Date | 1;
+  C: DeepReadonly<{
+    label: string;
+    value: string;
+  }>;
+  D: string[];
+  E?: string | number | undefined;
+  F?: ((key: string, value: string) => void) | undefined;
+}
+```
+
+`InsideHogeHogeProps`と全く同じ様に`OutsidePropsType`を利用すれば、この型を自動で生成でき、型定義を書くストレスを軽減します.
 些細な意見でも結構ですので、なにかありましたら気軽にissueを立てて申し立ててくださると幸いです.
