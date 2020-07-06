@@ -18,7 +18,15 @@ type VueProps = {
   [propsName: string]: Type1 | Type2
 }
 
-type ToPrimitiveOrReturn<T> = T extends string ? T : T extends number ? T : T extends boolean ? T : T
+type ToPrimitiveOrReturn<T> = T extends object
+  ? T extends String
+    ? string
+    : T extends Number
+    ? number
+    : T extends Boolean
+    ? boolean
+    : T
+  : T
 
 type ToPrimitive<T> = T extends Promise<unknown>
   ? T
@@ -38,7 +46,7 @@ type ReadonlyConstructor<T> = new (...args: any) => Readonly<T>
 type ReadonlyArrayConstructor<T = any> = GetParams<ArrayConstructor> & ReadonlyConstructor<T> & ReadonlyFunctionalConstructor<T>
 
 type DeepReadonly<T> = {
-  readonly [P in keyof T]: T[P] extends Callback | undefined | Date | number | boolean | string | File | ArrayBuffer
+  readonly [P in keyof T]: T[P] extends Callback | undefined | Date | File | ArrayBuffer | number | string | boolean
     ? T[P]
     : DeepReadonly<T[P]>
 }
@@ -73,3 +81,27 @@ type _PropType<T> = T extends Array<any>
   ? OverrideConstructor<T, BooleanConstructor>
   : Constructor<T> & FunctionalConstructor<T>
 export type PropType<T> = _PropType<T> | _PropType<T>[]
+
+const railsLinkPropsType = {
+  route: {
+    type: String,
+    required: true,
+  },
+  anchor: {
+    type: String,
+    default: () => null as null,
+  },
+  tag: {
+    type: String,
+    default: () => 'a',
+  },
+  disabledClass: {
+    type: String,
+    default: () => 'disabled-link',
+  },
+  disabled: {
+    type: Boolean,
+    default: (): boolean => false,
+  },
+} as const
+export type RailsLinkProps = PropsType<typeof railsLinkPropsType>

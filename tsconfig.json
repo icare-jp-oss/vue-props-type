@@ -2,6 +2,10 @@
   "compilerOptions": {
     "module": "commonjs",
     "strict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
     "outDir": "lib",
     "esModuleInterop": true,
     "declaration": true,
