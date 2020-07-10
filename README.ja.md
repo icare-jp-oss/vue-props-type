@@ -127,7 +127,7 @@ export type HogeHogeProps = OutsidePropsType<typeof propsType>
 // {
 //   A?: string | undefined;
 //   B: 0 | Date | 1;
-//   C: DeepReadonly<{
+//   C: Readonly<{
 //     label: string;
 //     value: string;
 //   }>;
@@ -140,7 +140,7 @@ type InsideHogeHogeProps = InsidePropsType<typeof propsType>
 // {
 //   readonly A: string;
 //   readonly B: 0 | Date | 1;
-//   readonly C: DeepReadonly<{
+//   readonly C: Readonly<{
 //     label: string;
 //     value: string;
 //   }>;
@@ -172,7 +172,7 @@ export default defineComponent<InsideHogeHogeProps>({
 export type HogeHogeProps = {
   A?: string | undefined;
   B: 0 | Date | 1;
-  C: DeepReadonly<{
+  C: Readonly<{
     label: string;
     value: string;
   }>;

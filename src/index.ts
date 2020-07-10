@@ -45,12 +45,6 @@ type ReadonlyFunctionalConstructor<T> = (...args: any) => Readonly<T>
 type ReadonlyConstructor<T> = new (...args: any) => Readonly<T>
 type ReadonlyArrayConstructor<T = any> = GetParams<ArrayConstructor> & ReadonlyConstructor<T> & ReadonlyFunctionalConstructor<T>
 
-type DeepReadonly<T> = {
-  readonly [P in keyof T]: T[P] extends Callback | undefined | Date | File | ArrayBuffer | number | string | boolean
-    ? T[P]
-    : DeepReadonly<T[P]>
-}
-
 export type InsideUnsafePropsType<Props extends VueProps> = {
   [K in keyof Props]: Props[K] extends {
     default: FunctionalConstructor<infer U>
@@ -60,7 +54,7 @@ export type InsideUnsafePropsType<Props extends VueProps> = {
     ? Map2Primitive<Props[K] extends Type1 ? Props[K]['type'] : Props[K]>
     : Map2Primitive<Props[K] extends Type1 ? Props[K]['type'] : Props[K]> | undefined
 }
-export type InsidePropsType<Props extends VueProps> = DeepReadonly<InsideUnsafePropsType<Props>>
+export type InsidePropsType<Props extends VueProps> = Readonly<InsideUnsafePropsType<Props>>
 type _InsidePropsTypePropType<T> = T extends Array<any>
   ? OverrideConstructor<T, ArrayConstructor>
   : T extends ReadonlyArray<any>
