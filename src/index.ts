@@ -82,6 +82,10 @@ type FilterKeys<T, U> = { [P in keyof T]: T[P] extends U ? never : P }[keyof T]
 type _OutsidePropsType<Props extends VueProps> = {
   [K in keyof Props]: Map2Primitive<Props[K] extends Type1 ? Props[K]['type'] : Props[K]>
 }
-
-export type OutsidePropsType<Props extends VueProps> = _OutsidePropsType<Pick<Props, PickKeys<Props, { required: true }>>> &
-  Partial<_OutsidePropsType<Pick<Props, FilterKeys<Props, { required: true }>>>>
+type Clean<T> = {
+  [K in keyof T]: T[K]
+}
+export type OutsidePropsType<Props extends VueProps> = Clean<
+  _OutsidePropsType<Pick<Props, PickKeys<Props, { required: true }>>> &
+    Partial<_OutsidePropsType<Pick<Props, FilterKeys<Props, { required: true }>>>>
+>
