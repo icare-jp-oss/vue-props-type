@@ -7,7 +7,7 @@ type ValidType = ClassConstructor | Callback | Promise<unknown>
 
 type Type1 = {
   type: ValidType | ValidType[] | readonly ValidType[]
-  default?: FunctionalConstructor<unknown>
+  default?: unknown
   required?: boolean
   validator?(value: unknown): boolean
 }
@@ -49,6 +49,10 @@ export type InsideUnsafePropsType<Props extends VueProps> = {
   [K in keyof Props]: Props[K] extends {
     default: FunctionalConstructor<infer U>
   }
+    ? U | Map2Primitive<Props[K] extends Type1 ? Props[K]['type'] : Props[K]>
+    : Props[K] extends {
+        default: infer U
+      }
     ? U | Map2Primitive<Props[K] extends Type1 ? Props[K]['type'] : Props[K]>
     : Props[K] extends { required: true }
     ? Map2Primitive<Props[K] extends Type1 ? Props[K]['type'] : Props[K]>
