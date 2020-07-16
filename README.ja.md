@@ -100,7 +100,7 @@ export default defineComponent<HogeHogeProps>({
 
 ```typescript
 import { defineComponent } from '@vue/composition-api'
-import { InsidePropsType, PropType } from '@icare-jp/vue-props-type'
+import { InsidePropsType, OutsidePropsType, PropType } from '@icare-jp/vue-props-type'
 
 const propsType = {
   A: {

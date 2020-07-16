@@ -101,7 +101,7 @@ Here's a sample using `Vue Props Type`.
 
 ```typescript
 import { defineComponent } from '@vue/composition-api'
-import { InsidePropsType, PropType } from '@icare-jp/vue-props-type'
+import { InsidePropsType, OutsidePropsType, PropType } from '@icare-jp/vue-props-type'
 
 const propsType = {
   A: {
