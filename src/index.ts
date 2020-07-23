@@ -14,7 +14,7 @@ type Type1 = {
 
 type Type2 = Type1['type']
 
-type VueProps = {
+export type VueProps = {
   [propsName: string]: Type1 | Type2
 }
 
