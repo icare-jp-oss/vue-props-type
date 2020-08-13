@@ -1,0 +1,9 @@
+__tests__
+src
+.github
+.vscode
+.eslintrc
+.node-version
+jest.config.js
+README.md
+README.ja.md
