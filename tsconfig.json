@@ -15,7 +15,7 @@
     "lib": ["esnext", "esnext.asynciterable", "dom", "dom.iterable"],
     "moduleResolution": "node",
     "baseUrl": ".",
-    "typeRoots": ["./app/frontend/@types/", "./node_modules/@types/"],
+    "typeRoots": ["./node_modules/@types/"],
     "sourceMap": true,
     "target": "es5"
   },
