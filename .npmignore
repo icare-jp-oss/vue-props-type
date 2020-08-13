@@ -5,5 +5,3 @@ src
 .eslintrc
 .node-version
 jest.config.js
-README.md
-README.ja.md
